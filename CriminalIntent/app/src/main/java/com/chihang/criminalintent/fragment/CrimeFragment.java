@@ -1,4 +1,4 @@
-package com.chihang.criminalintent;
+package com.chihang.criminalintent.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import com.chihang.criminalintent.R;
 import com.chihang.criminalintent.model.Crime;
 
 public class CrimeFragment extends Fragment {
