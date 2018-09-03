@@ -1,6 +1,9 @@
 package com.chihang.criminalintent.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -39,6 +42,18 @@ public class CrimeFragment extends Fragment {
 
     UUID crimeId = (UUID) getArguments().getSerializable(CRIME_ID_KEY);
     mCrime = CrimeLab.get(getContext()).getCrime(crimeId);
+
+    setResult(crimeId);
+  }
+
+  @Nullable public static UUID getCrimeIdFromIntent(Intent intent) {
+    return (UUID) intent.getSerializableExtra(CRIME_ID_KEY);
+  }
+
+  private void setResult(UUID crimeId) {
+    Intent intent = new Intent();
+    intent.putExtra(CRIME_ID_KEY, crimeId);
+    getActivity().setResult(Activity.RESULT_OK, intent);
   }
 
   @Override
