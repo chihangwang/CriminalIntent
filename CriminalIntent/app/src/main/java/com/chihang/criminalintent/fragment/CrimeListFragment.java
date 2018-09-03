@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import com.chihang.criminalintent.R;
-import com.chihang.criminalintent.activity.CrimeActivity;
+import com.chihang.criminalintent.activity.CrimePagerActivity;
 import com.chihang.criminalintent.model.Crime;
 import com.chihang.criminalintent.model.CrimeLab;
 import java.util.List;
@@ -89,7 +89,7 @@ public class CrimeListFragment extends Fragment {
 
     @Override
     public void onClick(View v) {
-      Intent intent = CrimeActivity.newIntent(getContext(), mCrime.getId());
+      Intent intent = CrimePagerActivity.newIntent(getContext(), mCrime.getId());
       startActivityForResult(intent, REQUEST_CRIME);
     }
   }
