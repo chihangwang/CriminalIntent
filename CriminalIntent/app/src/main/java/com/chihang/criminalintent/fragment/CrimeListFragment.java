@@ -1,6 +1,5 @@
 package com.chihang.criminalintent.fragment;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,10 +17,9 @@ import com.chihang.criminalintent.model.CrimeLab;
 import java.util.List;
 
 public class CrimeListFragment extends Fragment {
-  private static final int REQUEST_CRIME = 1;
 
   private RecyclerView mCrimeRecycleView;
-  private CrimeAdapter crimeAdapter;
+  private CrimeAdapter mCrimeAdapter;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,29 +38,18 @@ public class CrimeListFragment extends Fragment {
   public void onResume() {
     super.onResume();
 
-    //updateUI();
-  }
-
-  @Override
-  public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-    switch (requestCode) {
-      case REQUEST_CRIME:
-        if (resultCode == Activity.RESULT_OK) {
-          int position =
-              CrimeLab.get(getContext()).getPosition(CrimeFragment.getCrimeIdFromIntent(intent));
-          crimeAdapter.notifyItemChanged(position);
-        }
-        break;
-    }
-
-    return;
+    updateUI();
   }
 
   private void updateUI() {
     List<Crime> crimes = CrimeLab.get(getContext()).getCrimes();
 
-    crimeAdapter = new CrimeAdapter(crimes);
-    mCrimeRecycleView.setAdapter(crimeAdapter);
+    if (mCrimeAdapter == null) {
+      mCrimeAdapter = new CrimeAdapter(crimes);
+      mCrimeRecycleView.setAdapter(mCrimeAdapter);
+    } else {
+      mCrimeAdapter.notifyDataSetChanged();
+    }
   }
 
   private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -90,7 +77,7 @@ public class CrimeListFragment extends Fragment {
     @Override
     public void onClick(View v) {
       Intent intent = CrimePagerActivity.newIntent(getContext(), mCrime.getId());
-      startActivityForResult(intent, REQUEST_CRIME);
+      startActivity(intent);
     }
   }
 
