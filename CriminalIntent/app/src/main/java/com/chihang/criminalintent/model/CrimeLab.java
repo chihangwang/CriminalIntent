@@ -13,16 +13,14 @@ public class CrimeLab {
 
   private CrimeLab(Context context) {
     mCrimes = new ArrayList<>();
-    for (int i = 0; i < 100; i++) {
-      Crime c = new Crime();
-      c.setTitle("Crime #" + i);
-      c.setSolved(i % 2 == 0);
-      mCrimes.add(c);
-    }
   }
 
   public List<Crime> getCrimes() {
     return mCrimes;
+  }
+
+  public void add(Crime crime) {
+    mCrimes.add(crime);
   }
 
   @Nullable public Crime getCrime(UUID id) {
