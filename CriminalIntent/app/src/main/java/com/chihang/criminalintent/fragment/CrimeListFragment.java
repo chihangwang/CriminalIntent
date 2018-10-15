@@ -100,6 +100,20 @@ public class CrimeListFragment extends Fragment {
     }
   }
 
+  private void updateUI() {
+    List<Crime> crimes = CrimeLab.get(getContext()).getCrimes();
+
+    if (mCrimeAdapter == null) {
+      mCrimeAdapter = new CrimeAdapter(crimes);
+      mCrimeRecycleView.setAdapter(mCrimeAdapter);
+    } else {
+      mCrimeAdapter.setCrimes(crimes);
+      mCrimeAdapter.notifyDataSetChanged();
+    }
+
+    updateSubtitle();
+  }
+
   private void updateSubtitle() {
     int crimeCount = CrimeLab.get(getActivity()).getCrimes().size();
     String subtitle =
@@ -112,19 +126,6 @@ public class CrimeListFragment extends Fragment {
 
     AppCompatActivity activity = (AppCompatActivity) getActivity();
     activity.getSupportActionBar().setSubtitle(subtitle);
-  }
-
-  private void updateUI() {
-    List<Crime> crimes = CrimeLab.get(getContext()).getCrimes();
-
-    if (mCrimeAdapter == null) {
-      mCrimeAdapter = new CrimeAdapter(crimes);
-      mCrimeRecycleView.setAdapter(mCrimeAdapter);
-    } else {
-      mCrimeAdapter.notifyDataSetChanged();
-    }
-
-    updateSubtitle();
   }
 
   private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -165,7 +166,6 @@ public class CrimeListFragment extends Fragment {
 
     @Override
     public CrimeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-      // it must be a text view
       View v = LayoutInflater.from(getContext())
           .inflate(R.layout.list_item_crime, parent, false);
 
@@ -180,6 +180,10 @@ public class CrimeListFragment extends Fragment {
     @Override
     public int getItemCount() {
       return mCrimes.size();
+    }
+
+    private void setCrimes(List<Crime> crimes) {
+      mCrimes = crimes;
     }
   }
 }
