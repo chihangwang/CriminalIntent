@@ -7,11 +7,18 @@ import android.support.annotation.Nullable;
 import com.chihang.criminalintent.database.CrimeBaseHelper;
 import com.chihang.criminalintent.database.CrimeCursorWrapper;
 import com.chihang.criminalintent.database.CrimeDBSchema;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static android.os.Environment.DIRECTORY_PICTURES;
 
 public class CrimeLab {
+  private static final Logger logger = Logger.getLogger(CrimeLab.class.getName());
   private static CrimeLab sCrimeLab;
 
   private Context mContext;
@@ -43,6 +50,22 @@ public class CrimeLab {
     } finally {
       cursor.close();
     }
+  }
+
+  @Nullable public File getPhotoFile(Crime crime) {
+    File storageDir = mContext.getExternalFilesDir(DIRECTORY_PICTURES);
+
+    File tempFile;
+    try {
+      tempFile = File.createTempFile(crime.getPhotoFilename(), ".jpg", storageDir);
+    } catch (IOException e) {
+      logger.log(Level.WARNING, "IOException occurs: %s", e);
+      return null;
+    }
+    // // Save a file
+    String absolutePath = tempFile.getAbsolutePath();
+
+    return tempFile;
   }
 
   public List<Crime> getCrimes() {
